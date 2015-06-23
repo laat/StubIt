@@ -48,7 +48,7 @@
      }
 
    #+end_src
-   
+
    Vil det feile:
    #+begin_src http
      GET http://localhost:8081/fail
@@ -98,6 +98,7 @@
      }
    }
    #+end_src
+
    
    =PUT= fungerer på samme måte som =POST=
    
@@ -108,7 +109,7 @@
      {"beta": "beta"}
    #+end_src
 ** Hent alle testdata
-   #+begin_src http
+   #+begin_src http :pretty
      GET http://localhost:8081/testdata
    #+end_src
 

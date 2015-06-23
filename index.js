@@ -6,6 +6,7 @@ var http = require('http'),
 
 var app = express();
 app.use(bodyParser.json());
+app.use(require('morgan')('dev'));
 
 store = new ActionStore();
 
@@ -52,7 +53,7 @@ app.put(/\/(.*)/, function(req, res) {
   processAction(res, action);
 });
 
-console.log("starter proxy server");
+console.log("starter mock server");
 
 var httpServer = http.createServer(app);
 httpServer.listen(8081);
