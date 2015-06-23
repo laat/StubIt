@@ -1,10 +1,7 @@
+#+OPTIONS: toc:nil
 * Generisk json+http mock
-** Hent alle testdata
-   #+begin_src http :pretty
-     GET http://localhost:8081/testdata
-   #+end_src
-** Datastructur
-   #+begin_src javascript
+** Datastruktur
+   #+begin_src javascript :exports code
      {
        "path": "/some/path", // required
        "method": "GET",      // en av: GET/POST/PUT
@@ -15,6 +12,7 @@
    #+end_src
    
 ** Mock et GET-request
+   Ved å sende poste testdata:
    #+begin_src http :pretty
      POST http://localhost:8081/testdata
      Content-Type: application/json
@@ -28,13 +26,14 @@
      }
 
    #+end_src
-
    
+   oppfører endepunktet seg som definert:
    #+begin_src http :pretty
      GET http://localhost:8081/bostotte/0000000
    #+end_src
-
+   
 ** Mock Statuskode
+   Dersom man først definerer et request som skal feile:
    #+begin_src http
      POST http://localhost:8081/testdata
      Content-Type: application/json
@@ -49,15 +48,13 @@
      }
 
    #+end_src
-
    
+   Vil det feile:
    #+begin_src http
      GET http://localhost:8081/fail
    #+end_src
-
+   
 ** Mock et POST-request
-   =key= feltet er spesielt, feltet blir en nøkkel som man gjør
-   oppslag på. ved POST-requests er key-feltet påkrevet
    
    #+begin_src http :pretty
    POST http://localhost:8081/testdata
@@ -74,7 +71,10 @@
      }
    }
    #+end_src
-
+   
+   =key= feltet er spesielt, feltet blir en nøkkel som man gjør
+   oppslag på. 
+   
    #+begin_src http :pretty
      POST http://localhost:8081/postbar
      Content-Type: application/json
@@ -98,12 +98,17 @@
      }
    }
    #+end_src
-
+   
+   =PUT= fungerer på samme måte som =POST=
+   
    #+begin_src http :pretty
      PUT http://localhost:8081/postbar
      Content-Type: application/json
 
      {"beta": "beta"}
    #+end_src
+** Hent alle testdata
+   #+begin_src http
+     GET http://localhost:8081/testdata
+   #+end_src
 
-   
