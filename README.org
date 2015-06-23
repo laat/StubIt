@@ -1,0 +1,101 @@
+* Generisk json+http mock
+** Hent alle testdata
+   #+begin_src http :pretty
+     GET http://localhost:8081/testdata
+   #+end_src
+
+** Mock et GET-request
+   #+begin_src http :pretty
+     POST http://localhost:8081/testdata
+     Content-Type: application/json
+
+     {
+       "path": "/bostotte/0000000",
+       "method": "GET",
+       "value": {
+         "status": true
+       }
+     }
+
+   #+end_src
+
+   
+   #+begin_src http :pretty
+     GET http://localhost:8081/bostotte/0000000
+   #+end_src
+
+   
+** Mock Statuskode
+   #+begin_src http
+     POST http://localhost:8081/testdata
+     Content-Type: application/json
+
+     {
+       "path": "/fail",
+       "method": "GET",
+       "status": 500,
+       "value": {
+         "error": "jeg feilet, og sier i fra med json"
+       }
+     }
+
+   #+end_src
+
+   
+   #+begin_src http
+     GET http://localhost:8081/fail
+   #+end_src
+
+   
+** Mock et POST-request
+   =key= feltet er spesielt, feltet blir en nøkkel som man gjør
+   oppslag på. ved POST-requests er key-feltet påkrevet
+   
+   #+begin_src http :pretty
+   POST http://localhost:8081/testdata
+   Content-Type: application/json
+
+   {
+     "path": "/postbar",
+     "method": "POST",
+     "key": {
+       "alfa": "alfa"
+     },
+     "value": {
+       "hello": "alfa"
+     }
+   }
+   #+end_src
+
+   #+begin_src http :pretty
+     POST http://localhost:8081/postbar
+     Content-Type: application/json
+
+     {"alfa": "alfa"}
+   #+end_src
+   
+** Mock et PUT-request
+   #+begin_src http :pretty
+   POST http://localhost:8081/testdata
+   Content-Type: application/json
+
+   {
+     "path": "/postbar",
+     "method": "PUT",
+     "key": {
+       "beta": "beta"
+     },
+     "value": {
+       "hello": "beta"
+     }
+   }
+   #+end_src
+
+   #+begin_src http :pretty
+     PUT http://localhost:8081/postbar
+     Content-Type: application/json
+
+     {"beta": "beta"}
+   #+end_src
+
+   
