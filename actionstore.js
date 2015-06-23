@@ -66,9 +66,6 @@ ActionStore.prototype = {
     if (!action.method) {
       throw "mangler action.method";
     }
-    if (!action.value) {
-      throw "mangler action.value";
-    }
     this._put(action.path, action.method, action);
   },
   getAction: function(path, method, body) {

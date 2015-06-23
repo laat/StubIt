@@ -27,7 +27,10 @@ var processAction = function(res, action) {
   if (action.status) {
     res.status(action.status);
   }
-  res.json(action.value);
+  if (action.value) {
+    res.json(action.value);
+  }
+  res.end();
 };
 
 app.get(/\/(.*)/, function(req, res) {
