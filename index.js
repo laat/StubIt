@@ -28,8 +28,8 @@ var processAction = function(res, action) {
   if (action.status) {
     res.status(action.status);
   }
-  if (action.value) {
-    res.json(action.value);
+  if (action.responseBody) {
+    res.json(action.responseBody);
   }
   res.end();
 };

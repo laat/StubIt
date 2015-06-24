@@ -5,8 +5,8 @@
     {
       "path": "/some/path", // required
       "method": "GET",      // en av: GET/POST/PUT
-      "key": {},            // request object,  - optional
-      "value": {},          // response object, - optional
+      "requestBody": {},    // request object,  - optional
+      "responseBody": {},   // response object, - optional
       "status": 200         // default 200      - optional
     }
 
@@ -20,7 +20,7 @@ Ved å sende poste testdata:
     {
       "path": "/bostotte/0000000",
       "method": "GET",
-      "value": {
+      "responseBody": {
         "status": true
       }
     }
@@ -40,7 +40,7 @@ Dersom man først definerer et request som skal feile:
       "path": "/fail",
       "method": "GET",
       "status": 500,
-      "value": {
+      "responseBody": {
         "error": "jeg feilet, og sier i fra med json"
       }
     }
@@ -57,15 +57,15 @@ Vil det feile:
     {
       "path": "/postbar",
       "method": "POST",
-      "key": {
+      "requestBody": {
         "alfa": "alfa"
       },
-      "value": {
+      "responseBody": {
         "hello": "alfa"
       }
     }
 
-`key` feltet er spesielt, feltet blir en nøkkel som man gjør
+`requestBody` feltet er spesielt, feltet blir en nøkkel som man gjør
 oppslag på. 
 
     POST http://localhost:8081/postbar
@@ -81,10 +81,10 @@ oppslag på.
     {
       "path": "/postbar",
       "method": "PUT",
-      "key": {
+      "requestBody": {
         "beta": "beta"
       },
-      "value": {
+      "responseBody": {
         "hello": "beta"
       }
     }
