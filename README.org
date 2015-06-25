@@ -21,10 +21,9 @@
        "path": "/bostotte/0000000",
        "method": "GET",
        "responseBody": {
-         "status": true
+         "status": false
        }
      }
-
    #+end_src
 
    

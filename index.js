@@ -1,5 +1,7 @@
 var http = require('http'),
     url = require('url'),
+    fs = require('fs'),
+    glob = require('glob'),
     ActionStore = require('./actionstore.js'),
     bodyParser = require('body-parser'),
     express = require('express');
@@ -18,7 +20,6 @@ app.post("/testdata", function(req, res) {
   store.leggTilTestdata(req.body);
   res.status(200).end();
 });
-
 
 var processAction = function(res, action) {
   if (!action) {
@@ -55,5 +56,15 @@ app.put(/\/(.*)/, function(req, res) {
 
 console.log("starter mock server");
 
+var pattern = process.env.TEST_FILER || "testdata/**/*.json";
+glob(pattern, function(err, files) {
+  if (err) throw err;
+  files.forEach(function(file) {
+    console.log("laster inn testfil: " + file);
+    var fileObject = JSON.parse(fs.readFileSync(file, 'utf8'));
+    store.leggTilTestdata(fileObject);
+  });
+});
+
 var httpServer = http.createServer(app);
-httpServer.listen(8081);
+httpServer.listen(process.env.APPLICATION_PORT || 8081);
