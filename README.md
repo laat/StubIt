@@ -7,6 +7,7 @@
       "method": "GET",      // en av: GET/POST/PUT
       "requestBody": {},    // request object,  - optional
       "responseBody": {},   // response object, - optional
+      "responseHeaders": {}, // response headers - optional. Hvis Content-Type ikke er angitt er json default
       "status": 200         // default 200      - optional
     }
 
@@ -20,6 +21,51 @@ Ved å sende poste testdata:
     {
       "path": "/bostotte/0000000",
       "method": "GET",
+      "responseBody": {
+        "status": true
+      }
+    }
+
+oppfører endepunktet seg som definert:
+
+    GET http://localhost:8081/bostotte/0000000
+
+## Mock et GET-request med xml response
+
+**NB: hvis responseBody skal være xml, så må alt inlines som en string, og fnutter må escapes (\")**
+
+Ved å sende poste testdata:
+
+    POST http://localhost:8081/testdata
+    Content-Type: application/json
+    
+    {
+      "path": "/kontaktregister/0000000",
+      "method": "GET",
+      "responseHeaders": {
+        "Content-Type": "application/xml"
+        },
+      "responseBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>...."
+      
+    }
+
+oppfører endepunktet seg som definert:
+
+    GET http://localhost:8081/kontaktregister/0000000
+
+## Mock et GET-request med egendefinerte headers
+
+Ved å sende poste testdata:
+
+    POST http://localhost:8081/testdata
+    Content-Type: application/json
+    
+    {
+      "path": "/bostotte/0000000",
+      "method": "GET",
+      "responseHeaders": {
+        "Egendefinert-Header": 'blablabla'
+      }
       "responseBody": {
         "status": true
       }

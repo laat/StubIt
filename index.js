@@ -26,11 +26,19 @@ var processAction = function(res, action) {
     res.status(404).end();
     return;
   }
+
+  if(action.responseHeaders) {
+    res.set(action.responseHeaders);
+  }
   if (action.status) {
     res.status(action.status);
   }
   if (action.responseBody) {
-    res.json(action.responseBody);
+    if(action.responseHeaders && action.responseHeaders['Content-Type']) {
+      res.send(action.responseBody);
+    }else {
+      res.json(action.responseBody);
+    }
   }
   res.end();
 };
