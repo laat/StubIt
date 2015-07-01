@@ -23,7 +23,7 @@ app.post("/testdata", function(req, res) {
 
 var processAction = function(res, action) {
   if (!action) {
-    res.status(404).end();
+    res.status(204).end();
     return;
   }
 
