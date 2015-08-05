@@ -23,7 +23,7 @@ app.post("/testdata", function(req, res) {
 
 var processAction = function(res, action) {
   if (!action) {
-    res.status(204).end();
+    res.status(process.env.NOT_FOUND_STATUS || 404).end();
     return;
   }
 
