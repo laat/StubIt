@@ -1,4 +1,4 @@
-FROM docker-registry.local.husbanken.no/hb-node:5
+FROM node:0.12.7
 
 ADD package.json /source/package.json
 WORKDIR /source
