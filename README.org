@@ -1,19 +1,25 @@
 #+OPTIONS: toc:nil
-* Generisk json+http mock
-** Datastruktur
+* StubIt
+  Stubbing services in a docker environment should be simple. This
+  makes it simpler. With a simple json structure one can define a HTTP
+  endpoint and response data.
+  
+  This structure can either be read from file or POST-ed to StubIT over HTTP.
+
+** Datastructure
    #+begin_src javascript 
      {
        "path": "/some/path", // required
-       "method": "GET",      // en av: GET/POST/PUT
+       "method": "GET",      // One of av: GET/POST/PUT
        "requestBody": {},    // request object,  - optional
        "responseBody": {},   // response object, - optional
-       "responseHeaders": {},// response headers - optional. Hvis Content-Type ikke er angitt er json default
+       "responseHeaders": {},// response headers - optional. Content-Type is json by default
        "status": 200         // default 200      - optional
      }
    #+end_src
    
-** Mock et GET-request
-   Ved å sende testdata:
+** Mock a GET-request
+   By sending the test-data
    #+begin_src http :pretty :exports code
      POST http://localhost:8081/testdata
      Content-Type: application/json
@@ -28,7 +34,7 @@
    #+end_src
 
    
-   oppfører endepunktet seg som definert:
+   Does the endpoint behave as defined:
    #+begin_src http :pretty :exports both
      GET http://localhost:8081/bostotte/0000000
    #+end_src
@@ -38,12 +44,11 @@
    :   "status": false
    : }
 
+** Mock a GET-request with XML response
    
-** Mock et GET-request med xml response
+   *NB: If responseBody should be xml, must the XML document be inlined as a string with proper string-escaping.*
    
-   *NB: hvis responseBody skal være xml, så må alt inlines som en string, og fnutter må escapes (\")*
-   
-   Ved å sende testdata:
+   By sending the test data
    #+begin_src http :exports code
      POST http://localhost:8081/testdata
      Content-Type: application/json
@@ -58,7 +63,7 @@
      }
    #+end_src
 
-   oppfører endepunktet seg som definert:
+   Does the endpoint behave as defined:
 
    #+begin_src http :exports both
    GET http://localhost:8081/kontaktregister/0000000
@@ -75,9 +80,9 @@
    : 
    : xmldata
 
-** Mock et GET-request med egendefinerte headers
+** Mock a GET-request with custom headers
 
-   Ved å sende testdata:
+   By sending the test data
    
    #+begin_src http  :exports code
      POST http://localhost:8081/testdata
@@ -96,7 +101,7 @@
 
    #+end_src
 
-   oppfører endepunktet seg som definert:
+   Does the endpoint behave as defined:
    
    #+begin_src http :exports both
    GET http://localhost:8081/bostotte/0000000
@@ -116,8 +121,8 @@
    {"status":true}
 #+end_example
 
-** Mock Statuskode
-   Dersom man først definerer et request som skal feile:
+** Mock a failure and other status-codes
+   By first defining that a request should fail:
    #+begin_src http :exports code
      POST http://localhost:8081/testdata
      Content-Type: application/json
@@ -127,12 +132,12 @@
        "method": "GET",
        "status": 500,
        "responseBody": {
-         "error": "jeg feilet, og sier i fra med json"
+         "error": "I failed and responds with json"
        }
      }
    #+end_src
 
-   Vil det feile:
+   Will it fail
    #+begin_src http :exports both
      GET http://localhost:8081/fail
    #+end_src
@@ -141,14 +146,14 @@
    : HTTP/1.1 500 Internal Server Error
    : X-Powered-By: Express
    : Content-Type: application/json; charset=utf-8
-   : Content-Length: 46
-   : ETag: W/"2e-EDysCpt7VGzj5U86AxsIQw"
-   : Date: Mon, 29 Jun 2015 11:45:07 GMT
+   : Content-Length: 43
+   : ETag: W/"2b-bX7gq2bINhRhY43FoJPSgA"
+   : Date: Fri, 14 Aug 2015 11:52:05 GMT
    : Connection: keep-alive
    : 
-   : {"error":"jeg feilet, og sier i fra med json"}
+   : {"error":"I failed and responds with json"}
 
-** Mock et POST-request
+** Mock a POST-request
    
    #+begin_src http :pretty :exports code
    POST http://localhost:8081/testdata
@@ -167,8 +172,8 @@
    #+end_src
 
    
-   =requestBody= feltet er spesielt, feltet blir en nøkkel som man gjør
-   oppslag på. 
+   =requestBody= is special, the field becomes a key for the request
+   and must be POST-ed to get the response body.
    
    #+begin_src http :pretty :exports both
      POST http://localhost:8081/postbar
@@ -182,7 +187,7 @@
    :   "hello": "alfa"
    : }
 
-** Mock et PUT-request
+** Mock a PUT-request
    #+begin_src http :pretty :exports code
    POST http://localhost:8081/testdata
    Content-Type: application/json
@@ -200,7 +205,7 @@
    #+end_src
 
    
-   =PUT= fungerer på samme måte som =POST=
+   =PUT= with =requestBody= is similar to =POST=
    
    #+begin_src http :pretty :exports both
      PUT http://localhost:8081/postbar
@@ -214,8 +219,7 @@
    :   "hello": "beta"
    : }
 
-** Hent alle testdata
+** Get all the testdata
    #+begin_src http :pretty :exports code
      GET http://localhost:8081/testdata
    #+end_src
-
