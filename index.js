@@ -62,17 +62,19 @@ app.put(/\/(.*)/, function(req, res) {
   processAction(res, action);
 });
 
-console.log("starter mock server");
 
 var pattern = process.env.TEST_FILER || "testdata/**/*.json";
 glob(pattern, function(err, files) {
   if (err) throw err;
   files.forEach(function(file) {
-    console.log("laster inn testfil: " + file);
+    console.log("loading file: " + file);
     var fileObject = JSON.parse(fs.readFileSync(file, 'utf8'));
     store.leggTilTestdata(fileObject);
   });
 });
 
+var applicationPort = process.env.APPLICATION_PORT || 8081;
+console.log("starting StubIt on port ", applicationPort);
+
 var httpServer = http.createServer(app);
-httpServer.listen(process.env.APPLICATION_PORT || 8081);
+httpServer.listen(applicationPort);
