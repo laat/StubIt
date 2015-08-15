@@ -56,17 +56,17 @@ ActionStore.prototype = {
       this.store[path][method] = action;
     }
   },
-  leggTilTestdata: function(mockRequest) {
-    if (!mockRequest) {
-      throw "ingen mockRequest";
+  leggTilTestdata: function(stubRequest) {
+    if (!stubRequest) {
+      throw "ingen stubRequest";
     }
-    if (!mockRequest.path) {
-      throw "mangler mockRequest.path";
+    if (!stubRequest.path) {
+      throw "mangler stubRequest.path";
     }
-    if (!mockRequest.method) {
-      throw "mangler mockRequest.method";
+    if (!stubRequest.method) {
+      throw "mangler stubRequest.method";
     }
-    this._put(mockRequest.path, mockRequest.method, mockRequest);
+    this._put(stubRequest.path, stubRequest.method, stubRequest);
   },
   getAction: function(path, method, body) {
     if (!this.store[path]) {
