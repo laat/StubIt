@@ -45,26 +45,26 @@ ActionStore.prototype = {
         this.store[path][method] = [];
       }
       if (!(this.store[path][method] instanceof Array)) {
-        console.warn("Overskriver " + path + " hadde:", this.store[path][method]);
+        console.warn("Overwriting " + path + " had:", this.store[path][method]);
         this.store[path][method] = [];
       }
       this._insertOnKey(this.store[path][method], action.requestBody, action);
     } else {
       if (this.store[path][method] instanceof Array) {
-        console.warn("Overskriver " + path + " hadde:", this.store[path][method]);
+        console.warn("Overwriting " + path + " had:", this.store[path][method]);
       }
       this.store[path][method] = action;
     }
   },
-  leggTilTestdata: function(stubRequest) {
+  addTestData: function(stubRequest) {
     if (!stubRequest) {
-      throw "ingen stubRequest";
+      throw "no stubRequest";
     }
     if (!stubRequest.path) {
-      throw "mangler stubRequest.path";
+      throw "missing stubRequest.path";
     }
     if (!stubRequest.method) {
-      throw "mangler stubRequest.method";
+      throw "missing stubRequest.method";
     }
     this._put(stubRequest.path, stubRequest.method, stubRequest);
   },

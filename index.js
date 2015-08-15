@@ -17,7 +17,7 @@ app.get("/testdata", function(req, res) {
 });
 
 app.post("/testdata", function(req, res) {
-  store.leggTilTestdata(req.body);
+  store.addTestData(req.body);
   res.status(200).end();
 });
 
@@ -69,7 +69,7 @@ glob(pattern, function(err, files) {
   files.forEach(function(file) {
     console.log("loading file: " + file);
     var fileObject = JSON.parse(fs.readFileSync(file, 'utf8'));
-    store.leggTilTestdata(fileObject);
+    store.addTestData(fileObject);
   });
 });
 
